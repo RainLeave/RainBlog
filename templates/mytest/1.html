@@ -1,0 +1,31 @@
+<html>
+
+<head><title>Django教程</title></head>
+
+
+<body>
+
+<h1>Django模板</h1>
+
+<p>Hello {{ name }}</p>
+
+<ul>
+    {% for item in itemList %}
+    <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+
+
+{% is status %}
+    <p>I like Python</p>
+{% else %}
+<p>I like Django</p>
+{% endif %}
+
+
+{% ifequal a b %}
+{% endifequal %}
+
+{{ name | lower }}
+</body>
+</html>

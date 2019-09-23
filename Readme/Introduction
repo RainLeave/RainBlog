@@ -1,0 +1,96 @@
+博客介绍
+python 3.6
+django 2.2.5
+
+django-admin startproject Blog_Web
+
+---------------------------------------------------------------------------------------------------------------
+在Django中的一个app代表一个功能模块。开发者可以将不同功能的模块放在不同的app中,
+方便代码的复用。app就是项目的基石，因此开发博客的第一步就是创建新的app，
+用来实现跟文章相关的功能模块。
+
+---------------------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------------------
+
+注意：Python3.7和Django<=1.11是不兼容的。如果报错请尝试安装新版本的Django，或者回退Python<=3.6版本。
+
+注意此时app还没有写好，因此启动服务器可能会报错，是正常的。
+
+Django2.0之后，app的urls.py必须配置app_name，否则会报错。
+
+    ORM
+
+在 Django 里写Web应用并不需要你直接去操作数据库，而是定义好模型（用Python语法就可以了！），
+
+模型中包含了操作数据库所必要的命令。也就是说你只需要定义数据模型，其它的底层代码都不用关心，它们会自动从模型生成。
+
+其实它有专门的术语，叫对象关系映射（Object Relational Mapping，简称ORM），
+用于实现面向对象编程语言里不同类型系统的数据之间的转换
+
+类
+Python作为面向对象编程语言，最重要的概念就是类（Class）和实例（Instance）。
+
+类是抽象的模板，而实例是根据这个类创建出来的一个个具体的“对象”。
+每个对象都拥有相同的方法，但各自的数据可能不同。而这些方法被打包封装在一起，就组成了类。
+
+比如说我们刚写的这个ArticlePost类，作用就是就为博客文章的内容提供了一个模板。
+每当有一篇新文章生成的时候，都要比对ArticlePost类来创建author、title、body...等等
+数据；虽然每篇文章的具体内容可能不一样，但是必须都遵循相同的规则。
+
+在Django中，数据由模型来处理，而模型的载体就是类（Class）。
+
+字段
+字段（field）表示数据库表的一个抽象类，Django使用字段类创建数据库表，并将Python类型映射到数据库。
+
+在模型中，字段被实例化为类属性并表示特定的表，同时具有将字段值映射到数据库的属性及方法。
+
+比方说ArticlePost类中有一个title的属性，这个属性中保存着Charfield类型的数据：即一个较短的字符串。
+---------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------
+内部类
+内部类class Meta提供模型的元数据。元数据是“任何不是字段的东西”，
+例如排序选项ordering、数据库表名db_table、单数和复数名称verbose_name和 verbose_name_plural。
+这些信息不是某篇文章私有的数据，而是整张表的共同行为。
+
+要不要写内部类是完全可选的，当然有了它可以帮助理解并规范类的行为。
+
+在ArticlePost中我们使用的元数据ordering = ('-created',)，表明了每当我需要取出文章列表，
+作为博客首页时，按照-created（即文章创建时间，负号标识倒序）来排列，保证了最新文章永远在最顶部位置。
+
+Django2.0 之前的版本外键的on_delete参数可以不填；Django2.0以后on_delete是必填项。
+---------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------
+article       path('article/', include('article.urls', namespace='article')),
+article文件夹中创建urls.py
+
+---------------------------------------------------------------------------------------------------------------
+
+charolim=# create database BlogWeb owner charolim;
+CREATE DATABASE
+charolim=# grant all privilleges on database BlogWeb to charolim;
+ERROR:  syntax error at or near "privilleges"
+LINE 1: grant all privilleges on database BlogWeb to charolim;
+                  ^
+charolim=# grant all on database BlogWeb to charolim;
+GRANT
+
+
+
+  605  mv prism
+  /Users/charolim/.virtualenvs/blog_env/lib/python3.6/site-packages/ckeditor/static/ckeditor/ckeditor/plugins
+cd /Users/charolim/.virtualenvs/blog_env/lib/python3.6/site-packages
+
+cd /Users/charolim/.virtualenvs/blog_env/lib/python3.6/site-packages/allauth/templates/account
+
+cp login.html /Users/charolim/JunJun
+cd /Users/charolim/JunJun
+
+
+>>> from articles.models import ArticlePost
+>>> a = ArticlePost.objects.all()
+>>> a
