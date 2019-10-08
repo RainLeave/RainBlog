@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 # 引入 Profile 模型
 from .models import Profile
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
