@@ -16,6 +16,7 @@ True
 >>> f.cleaned_data
 {'nick_name': '', 'first_name': 'John', 'last_name': 'Lennon'}
 """
+
 # 创建视图函数，来处理我们写好的表单
 def views(request): # 视图函数第一个参数必须是request
     if request.method == 'POST':

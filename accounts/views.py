@@ -20,6 +20,22 @@ from .forms import ProfileForm
 from .models import Profile
 
 
+def about(request):
+    return render(request, 'accounts/about.html')
+
+
+def whisper(request):
+    return render(request, 'accounts/whisper.html')
+
+
+def album(request):
+    return render(request, 'accounts/album.html')
+
+
+def leacots(request):
+    return render(request, 'accounts/leacots.html')
+
+
 def user_login(request):
     if request.method == 'POST':
         user_login_form = UserLoginForm(data=request.POST)
@@ -132,3 +148,4 @@ def profile_edit(request, id):
         return render(request, 'accounts/edit.html', context)
     else:
         return HttpResponse("请使用GET或POST请求数据")
+

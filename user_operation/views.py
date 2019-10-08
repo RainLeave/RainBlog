@@ -4,6 +4,7 @@ from django.http import HttpResponse
 
 from articles.models import ArticlePost
 from .forms import CommentForm
+from django.views import View
 
 # 记得引入 Comment ！
 from .models import Comment
@@ -13,7 +14,6 @@ from django.contrib.auth.models import User
 
 # 引入JsonResponse
 from django.http import JsonResponse
-
 
 """
 # 文章评论
@@ -103,3 +103,4 @@ def post_comment(request, article_id, parent_comment_id=None):
     # 处理其他请求
     else:
         return HttpResponse("仅接受GET/POST请求。")
+

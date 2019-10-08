@@ -1,0 +1,10 @@
+2019/10/04 15:16:23 [error] 3030#3030: *15 connect()
+failed (111: Connection refused) while connecting to upstream, client: 117.136.40.210,
+server: 106.13.197.120,
+request: "GET / HTTP/1.1", upstream: "uwsgi://127.0.0.1:8000", host: "106.13.197.120"
+
+--- no python application found, check your startup logs for errors ---
+
+[pid: 4095|app: -1|req: -1/5] 117.136.40.210 () {44 vars in 886 bytes}
+ [Fri Oct  4 15:47:56 2019] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500)
+ 2 headers in 83 bytes (0 switches on core 0)

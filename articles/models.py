@@ -107,3 +107,4 @@ class ArticlePost(models.Model):
             resized_image.save(self.avatar.path)
 
         return article
+

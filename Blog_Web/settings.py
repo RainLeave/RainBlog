@@ -25,7 +25,7 @@ SECRET_KEY = 'f+^1k%6@z669$0cz_sd3#@4n@r7on#thlyp5=#im=dlq%zb))$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taggit',
     'ckeditor',
+    'ckeditor_uploader',
     'mptt',
     'password_reset',
     'articles',
+    'read_statistics',
 
     'imagekit',
     'accounts',
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'markdown',
     'notification',
     'notifications',
+    'blog',
 
     'pygments',
     # allauth 启动必须项
@@ -116,6 +119,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'User':'charolim',
         'NAME':'blogweb',
     }
 }
@@ -161,6 +165,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# 静态文件收集目录
+STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 
 # 媒体文件地址
@@ -264,3 +272,36 @@ LOGGING = {
         },
     },
 }
+
+# ...
+SITE_ID = 1
+
+####################################
+##  CKEDITOR CONFIGURATION ##
+####################################
+#
+# CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'upload/'
+
+# # 自定义参数
+# CACH_PAGE_BLOGS_NUMBER = 7
+
+# 缓存设置
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
+
+
+# CKEDITOR_IMAGE_BACKEND = "pillow"
+
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': None,
+#     },
+# }
+
+###################################

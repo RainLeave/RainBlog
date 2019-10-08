@@ -35,11 +35,8 @@ from user_operation.models import Comment
 from .models import ArticleColumn
 # 引入评论表单
 from user_operation.forms import CommentForm
-from django.views import  View
-
-#   ——————————————
+from django.views import View
 from articles.models import *
-#   ——————————————
 
 
 # 检查登录
@@ -191,7 +188,7 @@ def article_list(request):
     if order == 'total_views':
         article_list = article_list.order_by('-total_views')
 
-    paginator = Paginator(article_list, 1)
+    paginator = Paginator(article_list, 3)
     page = request.GET.get('page')
     articles = paginator.get_page(page)
 
@@ -202,6 +199,7 @@ def article_list(request):
         'search': search,
         'column': column,
         'tag': tag,
+        'order': order,
 
     }
 
@@ -210,6 +208,24 @@ def article_list(request):
 
 def article_detail(request, id):
     article = ArticlePost.objects.get(id=id)
+
+    # 过滤出所有的id比当前文章小的文章
+    pre_article = ArticlePost.objects.filter(id__lt=article.id).order_by('-id')
+    # 过滤出id大的文章
+    next_article = ArticlePost.objects.filter(id__gt=article.id).order_by('id')
+
+    # 取出相邻前一篇文章
+    if pre_article.count() > 0:
+        pre_article = pre_article[0]
+    else:
+        pre_article = None
+
+    # 取出相邻后一篇文章
+    if next_article.count() > 0:
+        next_article = next_article[0]
+    else:
+        next_article = None
+
     # 取出文章评论
     comments = Comment.objects.filter(article=id)
     # 浏览量 +1
@@ -231,9 +247,11 @@ def article_detail(request, id):
     # 引入评论表单
     comment_form = CommentForm()
     # 新增了md.toc对象
-    # 添加comments上下文
+    # 添加comments上下文 传递给模板的对象
     context = {'article': article, 'toc': md.toc, 'comments': comments,
                'comment_form': comment_form,
+               'pre_article': pre_article,
+               'next_article': next_article,
                 }
     # context = { 'article': article }
     return render(request, 'article/detail.html', context)
@@ -271,17 +289,18 @@ def article_create(request):
         else:
             # 新增及修改的代码
             columns = ArticleColumn.objects.all()
+            print(columns)
             context = {'article_post_form': article_post_form, 'columns': columns}
 
             return HttpResponse("表单内容有误，请重新填写。")
-    # 如果用户请求获取数据
-    else:
-        # 创建表单类实例
-        article_post_form = ArticlePostForm()
-        # 赋值上下文
-        context = {'article_post_form': article_post_form}
-        # 返回模板
-        return render(request, 'article/create.html', context)
+            # # 如果用户请求获取数据
+            # else:
+            # 创建表单类实例
+            article_post_form = ArticlePostForm()
+            # 赋值上下文
+            context = {'article_post_form': article_post_form}
+            # 返回模板
+            return render(request, 'article/create.html', context)
 
 
 # 删文章
@@ -369,3 +388,23 @@ class IncreaseLikesView(View):
         article.likes += 1
         article.save()
         return HttpResponse('success')
+
+
+# test for DetailView
+from django.utils import timezone
+from django.views.generic.detail import DetailView
+from articles.models import ArticlePost
+
+
+class ArticleDetailView(DetailView):
+
+    model = ArticlePost
+
+    def get_context_data(self, **kwargs):
+        # 重写View方法 重写此方法时，必须调用super（）
+        # Django2.0视图 View
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
+
+

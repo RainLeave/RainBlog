@@ -1,0 +1,27 @@
+django.core.exceptions.ImproperlyConfigured: django-ckeditor requires
+CKEDITOR_UPLOAD_PATH setting. This setting specifies an
+relative path to your ckeditor media upload directory. Make
+sure you have write permissions for the path, i.e.:
+CKEDITOR_UPLOAD_PATH = 'content/ckeditor/'
+which
+will be added to SITE_MEDIA/MEDIA_ROOT where needed by storage engine.
+https://stackoverflow.com/questions/29455057/django-core-exceptions-improperlyconfigured-the-secret-key-setting-must-not-be
+
+
+https://overiq.com/django-1-10/integrating-ckeditor-in-django/
+A:
+
+https://stackoverflow.com/questions/53306022/from-ckeditor-uploader-fields-import-richtextuploadingfield\
+
+django-ckeditor后台富文本编辑器
+http://yshblog.com/blog/193
+
+
+2\PermissionError: [Errno 13] Permission denied: '/static'
+https://stackoverflow.com/questions/18963494/django-file-upload-errno-13-permission-denied-static
+https://stackoverflow.com/questions/48841074/collectstatic-permission-denied-pythonanywhere-bash-terminal
+
+
+3、(staticfiles.E002) The STATICFILES_DIRS setting should not contain the STATIC_ROOT setting.
+https://stackoverflow.com/questions/48913016/django-the-staticfiles-dirs-setting-should-not-contain-the-static-root-setting
+

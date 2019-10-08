@@ -11,6 +11,8 @@
             <br>
             <!-- 提交文章的表单 -->
             <form method="post" action=".">
+              {% csrf_token %}
+            <!-- 文章标题 -->
             <!-- 文章标签 -->
                 <div class="form-group">
                     <label for="tags">标签</label>
@@ -21,7 +23,7 @@
                     >
                 </div>
                 <!-- Django中需要POST数据的地方都必须有csrf_token -->
-                {% csrf_token %}
+
                 <!-- 文章栏目 -->
                 <div class="form-group">
                     <label for="column">栏目</label>
@@ -35,6 +37,7 @@
                         {% endfor %}
                     </select>
                 </div>
+
               <!-- 文章标题图 -->
                 <div class="form-group">
                     <label for="avatar">标题图</label>
@@ -42,7 +45,6 @@
                 </div>
 
                 <!-- 文章正文 -->
-                ...
 
                 <!-- 提交按钮 -->
                 <button type="submit" class="btn btn-primary">完成</button>

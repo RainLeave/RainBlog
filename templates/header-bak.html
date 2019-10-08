@@ -1,46 +1,170 @@
+<!-- 引入notifications的模板标签 -->
+{% load staticfiles %}
+
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
 
 <!-- 定义导航栏 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-
-    <!-- 导航栏商标 -->
-    <a class="navbar-brand" href="#">我的博客</a>
-
-    <!-- 导航入口 -->
-    <div>
-      <ul class="navbar-nav">
-       <li class="nav-item">
-        <a class="nav-link" href="{% url 'articles:article_list' %}">文章</a>
-    </li>
-     <!-- Django的 if 模板语句 -->
-    {% if user.is_authenticated %}
-        <!-- 如果用户已经登录，则显示用户名下拉框 -->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ user.username }}
-
-            </a>
-
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">退出登录</a>
-              <a class="dropdown-item" href='{% url "accounts:edit" user.id %}'>个人信息</a>
-
-            </div>
-        </li>
-
-    <!-- 如果用户未登录，则显示 “登录” -->
-    {% else %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:login' %}">登录</a>
-        </li>
-    <!-- if 语句在这里结束 -->
-    {% endif %}
-</ul>
-
-      </ul>
+{#<nav class="navbar navbar-expand-lg navbar-dark bg-dark">#}
+{#    <!-- 导航 -->#}
+{#    <div class="container">#}
+<div class="header">
+    <div class="menu-btn">
+      <div class="menu"></div>
     </div>
-<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-    ...
+    <h1 class="logo">
+      <a href="{% url 'articles:article_list' %}>
+        <span>MYBLOG</span>
+{#        <img src="{% static 'res/img/logo.png' %} ">#}
+        <img src="../static/res/img/logo.png"><></a>
+      </a>
+    </h1>
+
+{#        <!-- skip -->#}
+{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"#}
+{#            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
+{##}
+{#        <span class="navbar-toggler-icon"></span>#}
+{#        </button>#}
+{#        <!-- skip -->#}
+        <!--Bootstrap写法-->
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+            <!-- 新增 -->
+            <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
+
+            <a class="dropdown-item" href='{% url "accounts:logout" %}'>退出登录</a>
+
+
+        </div>
+
+
+        <!-- 新增 -->
+        {% if user.is_authenticated %}
+        <form
+            style="display:none;"
+            id="user_delete"
+            action="{% url 'accounts:delete' user.id %}"
+            method="POST"
+        >
+        {% csrf_token %}
+            <button type="submit">发送</button>
+        </form>
+            <script>
+                function user_delete() {
+                    // 调用layer弹窗组件
+                    layer.open({
+                        title: "确认删除",
+                        content: "确认删除用户资料吗？",
+                        yes: function(index, layero) {
+                            $('form#user_delete button').click();
+                            layer.close(index);
+                        },
+                    })
+                }
+            </script>
+        {% endif %}
+
+
+
+
+
+        <!-- 导航入口 -->
+<!-- 导航入口 -->
+
+    <div class="nav">
+      <a class="active" href="{% url 'articles:article_list' %}">文章</a>
+{#      <a class="active" href="{% url 'articles:article_create' %}">写文章</a>#}
+      <a class="#" href="{% url 'articles:article_list' %}">微语</a>
+      <a class="#" href="{% url 'articles:article_list' %}">留言</a>
+      <a class="#" href="{% url 'articles:article_list' %}">相册</a>
+      <a class="#" href="{% url 'articles:article_list' %}">关于</a>
+      <!-- <a href="whisper.html">微语</a>
+      <a href="leacots.html">留言</a>
+      <a href="album.html">相册</a>
+      <a href="about.html">关于</a> -->
+
+         <!-- Django的 if 模板语句 -->
+              {% if user.is_authenticated %}
+                    <!-- 如果用户已经登录，则显示用户名下拉框 -->
+                          <!--Bootstrap写法 后续修改-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                              <!-- 新增代码，小红点 消息通知-->
+                            {% if unread_count %}
+                                <svg viewBox="0 0 8 8"
+                                     width="8px"
+                                     height="8px">
+                                    <circle cx="4"
+                                            cy="4"
+                                            r="4"
+                                            fill="#ff6b6b"
+                                            ></circle>
+                                </svg>
+                            {% endif %}
+                         {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href='{% url "accounts:logout" %}'>退出登录</a>
+                          <a class="dropdown-item" href='{% url "accounts:edit" user.id %}'>个人信息</a>
+                        <!--消息通知-->
+                        <!-- 新增代码，通知计数 -->
+                         <a class="dropdown-item" href="#">通知
+                            {% if unread_count %}
+                            <span class="badge badge-danger">{{ unread_count }}</span>
+                            {% endif %}
+                         </a>
+
+                        </div>
+                    </li>
+                <!-- 如果用户未登录，则显示 “登录” -->
+                {% else %}
+                    <li class=" ">
+                        <a class=" " href="{% url 'accounts:login' %}">登录</a>
+                    </li>
+                <!-- if 语句在这里结束 -->
+                {% endif %}
+    </div>
+    <ul class="layui-nav header-down-nav">
+      <li class="layui-nav-item"><a href="href="{% url 'articles:article_list' %}" class="active">文章</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'articles:article_list' %}">微语</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'articles:article_list' %}">留言</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'articles:article_list' %}">相册</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'articles:article_list' %}">关于</a></li>
+    </ul>
+    <p class="welcome-text">
+      欢迎来到<span class="name"> 夏天夏星星辰的网站 </span> ~
+    </p>
 </div>
+
+<div class="banner">
+    <div class="cont w1000">
+      <div class="title">
+        <h3>MY<br />BLOG</h3>
+        <h4>well-balanced heart</h4>
+      </div>
+      <div class="amount">
+        <p><span class="text">访问量</span><span class="access">1000</span></p>
+        <p><span class="text">日志</span><span class="daily-record">1000</span></p>
+      </div>
+    </div>
   </div>
-</nav>
+
+
+  <script type="text/javascript" src="{% static 'res/layui/layui.js' %}"></script>
+  {% block script %}
+  <script type="text/javascript">
+    layui.config({
+      base: '../static/res/js/util/'
+    }).use(['element','laypage','jquery','menu'],function(){
+      element = layui.element,laypage = layui.laypage,$ = layui.$,menu = layui.menu;
+      laypage.render({
+        elem: 'demo'
+        ,count: 70 //数据总数，从服务端得到
+      });
+      menu.init();
+    })
+  </script>
+  {% endblock script %}

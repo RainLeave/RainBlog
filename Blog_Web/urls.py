@@ -17,9 +17,9 @@ from django.contrib import admin
 # 记得引入include
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls.static import static
 
 from articles.views import article_list
+from django.conf.urls.static import static
 
 
 # 存放映射关系的列表
@@ -42,11 +42,18 @@ urlpatterns = [
     path('', article_list, name='home'),
 
     # mytest
-    path('mytest/', include('mytest.urls', namespace="mytest"))
-
+    path('mytest/', include('mytest.urls', namespace="mytest")),
+    # path('blog/', include('blog.urls', namespace="blog")),
+    # path('read_statistics/', include('read_statistics.urls', namespace="read_statistics"))
 
 ]
 
+urlpatterns += [
+
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    # django 2.0以下用
+    # url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+]
 
 #  添加这行
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

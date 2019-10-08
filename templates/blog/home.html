@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    夏天夏星星辰网站首页
+{% endblock %}
+
+{% block header_extends %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+{% endblock %}
+
+{% block nav_home_active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <h3 class=""home-content">欢迎进入夏天夏星星辰的个人网站</h3>
+    <!-- 图表容器 DOM -->
+    <div id="container"></div>
+    <div class="hot-data">
+        <!-- 今天24小时的热门博客 位于图表下方-->
+        <h3>今天热门点击</h3>
+        <!--阅读明细是从ReadDetail中获取到的一个记录 get_today_hot_data-->
+            <ul>
+            <!-- 模板标签 for循环-->
+                {% for hot_data in today_hot_data %}
+                    <!--<li>{{ hot_data.object_id }}({ (hot_data.read_num) })</li>-->
+                    <!--<li>{{ hot_data.content_object }}({ (hot_data.read_num) })</li>-->
+                    <li><a href="{% url 'article_detail' hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a></li>
+
+                {% empty %}
+                <!-- 如果为空 -->
+                <li>今天暂无热门博客</li>
+                {% endfor %}
+            </ul>
+    </div>
+     <div class="hot-data">
+        <h3>昨日热门博客</h3>
+            <ul>
+            <!-- 模板标签 for循环-->
+                {% for yesterday_hot_data in get_yesterday_hot_data %}
+                    <!--<li>{{ yesterday_hot_data.object_id }}({ (yesterday_hot_data.read_num) })</li>-->
+                    <!--<li>{{ yesterday_hot_data.content_object }}({ (yesterday_hot_data.read_num) })</li>-->
+                    <li><a href="{% url 'article_detail' yesterday_hot_data.content_object.pk %}">{{ yesterday_hot_data.content_object.title }}</a></li>
+
+                {% empty %}
+                <!-- 如果为空 -->
+                <li>昨天暂无热门博客</li>
+                {% endfor %}
+            </ul>
+    </div>
+     <div class="hot-data">
+          <h3>七天热门博客</h3>
+            <ul>
+            <!-- 模板标签 for循环-->
+                {% for seven_hot_data in get_7_days_hot_blogs %}
+                    <!--<li>{{ seven_hot_data.object_id }}({ (seven_hot_data.read_num) })</li>-->
+                    <!--<li>{{ seven_hot_data.content_object }}({ (seven_hot_data.read_num) })</li>-->
+                    <li><a href="{% url 'article_detail' seven_hot_data.object_id %}">{{ seven_hot_data.content_object.title }}</a></li>
+
+                {% empty %}
+                <!-- 如果为空 -->
+                <li>近七天暂无热门博客</li>
+                {% endfor %}
+            </ul>
+    </div>
+    <script></script>
+
+{% endblock %}

@@ -1,13 +1,33 @@
 <!-- 引入notifications的模板标签 -->
+{% load staticfiles %}
+
 {% load notifications_tags %}
 {% notifications_unread as unread_count %}
 
 <!-- 定义导航栏 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <!-- 导航栏商标 -->
-        <a class="navbar-brand" href="{% url 'articles:article_list' %}">我的博客</a>
+{#<nav class="navbar navbar-expand-lg navbar-dark bg-dark">#}
+{#    <!-- 导航 -->#}
+{#    <div class="container">#}
+<div class="header">
+    <div class="menu-btn">
+      <div class="menu"></div>
+    </div>
+    <h1 class="logo">
+      <a href="{% url 'articles:article_list' %}>
+        <span>MYBLOG</span>
+{#        <img src="{% static 'res/img/logo.png' %} ">#}
+        <img src="../static/res/img/logo.png"></a>
+      </a>
+    </h1>
 
+{#        <!-- skip -->#}
+{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"#}
+{#            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
+{##}
+{#        <span class="navbar-toggler-icon"></span>#}
+{#        </button>#}
+{#        <!-- skip -->#}
+        <!--Bootstrap写法-->
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
             <!-- 新增 -->
@@ -17,7 +37,6 @@
 
 
         </div>
-
 
         <!-- 新增 -->
         {% if user.is_authenticated %}
@@ -45,25 +64,26 @@
             </script>
         {% endif %}
 
+<!-- 导航入口 -->
 
+    <div class="nav">
+    <!--artciles表示namespce,article_list是url的名字-->
+      <a class="active" href="{% url 'articles:article_list' %}">文章</a>
+{#      <a class="active" href="{% url 'articles:article_create' %}">写文章</a>#}
+      <a class="#" href="{% url 'accounts:whisper' %}">微语</a>
+      <a class="#" href="{% url 'accounts:leacots' %}">留言</a>
+      <a class="#" href="{% url 'accounts:album' %}">相册</a>
+      <a class="#" href="{% url 'accounts:about' %}">关于</a>
+      <!-- <a href="whisper.html">微语</a>
+      <a href="leacots.html">留言</a>
+      <a href="album.html">相册</a>
+      <a href="about.html">关于</a> -->
 
-
-
-        <!-- 导航入口 -->
-        <div>
-          <ul class="navbar-nav">
-             <li class="nav-item">
-                <a class="nav-link" href="{% url 'articles:article_create' %}">写文章</a>
-             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'articles:article_list' %}">文章</a>
-            </li>
-
-          <!-- Django的 if 模板语句 -->
+         <!-- Django的 if 模板语句 -->
               {% if user.is_authenticated %}
                     <!-- 如果用户已经登录，则显示用户名下拉框 -->
-                    <li class="nav-item dropdown">
+                          <!--Bootstrap写法 后续修改-->
+                    <li class="layui-collapse">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                            role="button" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false">
@@ -96,22 +116,39 @@
                     </li>
                 <!-- 如果用户未登录，则显示 “登录” -->
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:login' %}">登录</a>
+                    <li class=" ">
+                        <a class=" " href="{% url 'accounts:login' %}">登录</a>
                     </li>
                 <!-- if 语句在这里结束 -->
                 {% endif %}
-
-
-
-
-          </ul>
-        </div>
-
     </div>
-</nav>
+    <ul class="layui-nav header-down-nav">
+      <li class="layui-nav-item"><a href="href="{% url 'articles:article_list' %}" class="active">文章</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'accounts:whisper' %}">微语</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'accounts:leacots' %}">留言</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'accounts:album' %}">相册</a></li>
+      <li class="layui-nav-item"><a href="href="{% url 'accounts:about' %}">关于</a></li>
+    </ul>
+    <p class="welcome-text">
+      欢迎来到<span class="name"> 夏天夏星星辰的网站 </span> ~
+    </p>
+</div>
 
 
+<!--头部截止-->
 
-
-
+  <script type="text/javascript" src="{% static 'res/layui/layui.js' %}"></script>
+  {% block script %}
+  <script type="text/javascript">
+    layui.config({
+      base: '../static/res/js/util/'
+    }).use(['element','laypage','jquery','menu'],function(){
+      element = layui.element,laypage = layui.laypage,$ = layui.$,menu = layui.menu;
+      laypage.render({
+        elem: 'demo'
+        ,count: 70 //数据总数，从服务端得到
+      });
+      menu.init();
+    })
+  </script>
+  {% endblock script %}

@@ -13,5 +13,17 @@ urlpatterns = [
     # 用户删除
     path('delete/<int:id>/', views.user_delete, name='delete'),
     # 用户信息
-    path('edit/<int:id>/', views.profile_edit, name='edit')
+    path('edit/<int:id>/', views.profile_edit, name='edit'),
+
+    # 关于
+    path('about/', views.about, name='about'),
+    # 微语
+    path('whisper/', views.whisper, name='whisper'),
+
+    # 相册集
+    path('album/', views.album, name='album'),
+
+    # 留言薄
+    path('leacots/', views.leacots, name='leacots'),
+
 ]

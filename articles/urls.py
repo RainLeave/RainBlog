@@ -2,6 +2,11 @@
 from django.urls import path, include
 from . import views
 
+# test for DetailView
+from articles.views import ArticleDetailView
+from blog.views import PostDetailView
+
+
 # 正在部署的应用的名称
 app_name = 'articles'
 
@@ -11,6 +16,8 @@ urlpatterns = [
     # path函数将url映射到视图
     # 注意：最终的url是http://127.0.0.1:8000/article/article-list/，不是article_list
     path('article-list/', views.article_list, name='article_list'),
+
+
 
     # 文章详情
     path('article-detail/<int:id>/', views.article_detail, name='article_detail'),
@@ -36,3 +43,12 @@ urlpatterns = [
         name='increase_likes'
     ),
 ]
+
+
+urlpatterns += [
+
+    # test for DetailView
+    path('<slug:slug>/', ArticleDetailView.as_view(), name='article-detail'),
+
+]
+
